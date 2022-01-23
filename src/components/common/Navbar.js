@@ -6,7 +6,7 @@ function Navbar() {
       <div className="container-xxl">
         <span className="navbar-brand">
           <Link to="/">
-            🔐 Navbar
+            🔐 Logo
           </Link>
         </span>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
