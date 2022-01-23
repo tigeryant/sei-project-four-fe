@@ -1,12 +1,19 @@
 import { Link } from 'react-router-dom'
 
-function CourseCard({ image, name, length }) {
+function CourseCard({ id, image, name, length }) {
   return (
     <>
-      <h4>This is a course card</h4>
-      <p>image url: {image}</p>
-      <p>name: {name}</p>
-      <p>length: {length}</p>
+      <div className="col-sm-6 col-lg-4">
+        <Link to={`/courses/${id}`}>
+          <div className="card p-4 m-1" >
+            <img src={image} className="card-img-top" style={{ objectFit: "cover" }} alt={'image of ', name}></img>
+            <div className="card-body">
+              <h5 className="card-title">{name}</h5>
+              <p className="card-text">{length} weeks</p>
+            </div>
+          </div>
+        </Link>
+      </div>
     </>
   )
 }

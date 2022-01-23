@@ -21,18 +21,23 @@ function CourseIndex() {
 
   return (
     <>
-      <h1>This is the course index page</h1>
-      <p>course cards go here</p>
-      {/* wrap the cards in a container */}
-      {courses &&
-      courses.map(course => (
-        <CourseCard
-        key={course.id}
-        image={course.image}
-        name={course.name}
-        length={course.length}
-        />
-      ))}
+      <section className="bg-light">
+        <h1>This is the course index page</h1>
+        <p>course cards go here</p>
+        <div className="container-lg my-5">
+          <div className="row">
+            {courses &&
+              courses.map(course => (
+                <CourseCard
+                  key={course.id}
+                  image={course.image}
+                  name={course.name}
+                  length={course.length}
+                />
+              ))}
+          </div>
+        </div>
+      </section>
     </>
   )
 }
