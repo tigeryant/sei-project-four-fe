@@ -7,7 +7,8 @@ function Home() {
   return (
     <>
       <section>
-        <div style={{ backgroundImage: "url(../../assets/raphael-school-of-athens.jpeg)", height: "100vh" }} className="hero text-light">
+        {/* style={{ backgroundImage: "url(../../assets/raphael-school-of-athens.jpeg)", height: "100vh" }}  */}
+        <div className="hero text-light">
           <h1>CryptoAcademy</h1>
           <button type="button" className="btn btn-primary">
             <Link to="/courses" className="text-light">Browse Courses

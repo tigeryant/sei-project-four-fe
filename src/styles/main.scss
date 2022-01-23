@@ -1,12 +1,36 @@
 .hero {
-  background-image: "url(../../assets/raphael-school-of-athens.jpeg)";
+  // background-image: url("../../assets/raphael-school-of-athens.jpeg");
+  background-image: url("../assets/raphael-school-of-athens.jpeg");
   background-position: center;
   background-size: cover;
   width: 100%;
+  height: 125vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.footer-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#github-logo {
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.link {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.link :hover {
+  color: #FFFFFF;
 }
 
 // import bootstrap and set the colour scheme, particularly the primary
