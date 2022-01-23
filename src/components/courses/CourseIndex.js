@@ -5,7 +5,6 @@ import CourseCard from './CourseCard'
 function CourseIndex() {
   const [courses, setCourses] = React.useState(null)
 
-  // put a useEffect here that makes an API call
   React.useEffect(() => {
     const getData = async () => {
       try {
