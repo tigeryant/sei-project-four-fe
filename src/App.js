@@ -1,30 +1,30 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import axios from 'axios'
+// import axios from 'axios'
 
-// import home, courseindex, courseshow, fullsyllabus
+// import home, courseindex, courseshow, fullsyllabus, login, register, enrol
 // nav, footer
-// coursecard and prereqcard not necessary here
+import Home from './components/common/Home'
 
-// login, register, enrol
+// coursecard and prereqcard not necessary here, maybe fullsyllabus is not necessary here?
 
 function App() {
-  React.useEffect(() => {
-    const getData = async () => {
-      const res = await axios.get('/api/courses')
-      console.log(res)
-    }
-    getData()
-  })
+  //   React.useEffect(() => {
+  //     const getData = async () => {
+  //       const res = await axios.get('/api/courses')
+  //       console.log(res)
+  //     }
+  //     getData()
+  //   })
 
   return (
     <BrowserRouter>
-      <Nav />
+      {/* <Nav /> */}
       <Switch>
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/courses/:courseId/full-syllabus">
+        {/* <Route path="/courses/:courseId/full-syllabus">
           <FullSyllabus />
         </Route>
         <Route path="/courses/:courseId">
@@ -38,12 +38,10 @@ function App() {
         </Route>
         <Route path="/login">
           <Login />
-        </Route>
-        
+        </Route> */}
 
       </Switch>
-      <Footer />
-      <h1>Hello World</h1>
+      {/* <Footer /> */}
     </BrowserRouter>
   )
 }
