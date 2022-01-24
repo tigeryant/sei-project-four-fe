@@ -14,3 +14,7 @@ function headers() {
 export function getAllCourses() {
   return axios.get(`${baseUrl}/courses`)
 }
+
+export function getSingleCourse(courseId) {
+  return axios.get(`${baseUrl}/courses/${courseId}`)
+}

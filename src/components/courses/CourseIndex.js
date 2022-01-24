@@ -29,6 +29,7 @@ function CourseIndex() {
               courses.map(course => (
                 <CourseCard
                   key={course.id}
+                  courseId={course.id}
                   image={course.image}
                   name={course.name}
                   length={course.length}

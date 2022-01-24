@@ -1,29 +1,83 @@
 // import altnav, prereqcard
 // import bootstrap from 'bootstrap'
+import React from 'react'
+import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
+import { getSingleCourse } from '../../lib/api'
 
 function CourseShow() {
+  // make an api call here, 'getSingleCourse' to display the information
+
+  const { courseId } = useParams()
+  const [course, setCourse] = React.useState(null)
+
+  const fetchCourse = React.useCallback(() => {
+    const getData = async () => {
+      try {
+        const res = await getSingleCourse(courseId)
+        console.log('res.data:', res.data)
+        setCourse(res.data)
+      } catch {
+        // setIsError(true)
+        console.log('error fetching course data')
+        console.log('courseId: ', courseId)
+      }
+    }
+    getData()
+  }, [courseId])
+
+  React.useEffect(() => {
+    fetchCourse()
+  }, [courseId, fetchCourse])
+
   return (
     <>
       {/* remember to wrap everything in a section */}
       <h1>This is the course show page</h1>
       <p>breadcrumb goes here</p>
-      <p>splash image</p>
-      <p>course title</p>
-      <p>instructor name and image</p>
-      <p>length of course</p>
+      <p>splash image url: {course && course.image}</p>
+      <p>course name: {course && course.name}</p>
+      <p>instructor name: {course && course.instructorName}</p>
+      <p>instructor image url: {course && course.instructorImage}</p>
+      <p>length of course: {course && course.length} weeks</p>
       <p>enroll now button (triggers an &apos;enrol&apos; modal)</p>
       <h3>alternative navbar</h3>
       <h2>Overview</h2>
-      <p>text goes here</p>
+      <p>overview content: {course && course.overview}</p>
       <h2>Prerequisites</h2>
-      <p>Insert prereq cards here</p>
+      <p>Links to prereq cards go here</p>
+      <p>Prerequisite ids: {course &&
+        course.prerequisites.map(prerequisite => {
+          return `id: ${prerequisite}, `
+        })}</p>
       <h2>Instructor</h2>
-      <p>instructor profile image and info</p>
+      <p>instructor profile image: {course && course.instructorImage}, instructor bio: {course && course.instructorBio}, instructor name: {course && course.instructorName}</p>
       <h2>Syllabus</h2>
       <p>Accordion with mini description of each weekly syllabus goes here</p>
-      <p>see full syllabus button, links to &apos;courses/:courseId/full-syllabus&apos;</p>
+      <p><strong>Syllabuses</strong> {course &&
+        course.weeklySyllabuses.map(syllabus => {
+          return `description: ${syllabus.description}, link`
+        })}
+      </p>
+      {course &&
+      <Link to={`/courses/${course.id}/full-syllabus`}>
+        <p>see full syllabus button
+        </p>
+      </Link>
+}
       <h2>Reviews</h2>
       <p>list group of reviews</p>
+      <h4>{course &&
+        course.reviews.map(review => {
+          return (
+            <p key={review.id}>
+              review owner: {review.owner}<br />
+              review rating: {review.rating}<br />
+              review content: {review.content}<br />
+            </p>
+          )
+        })}
+      </h4>
       <p>the final element of the list group is a review form (textbox)</p>
       <p>if not logged in, &apos;log in to leave a review&apos;</p>
     </>
