@@ -36,8 +36,12 @@ function CourseShow() {
     const getPrereqData = async (prerequisiteId) => {
       try {
         const res = await getSingleCourse(prerequisiteId)
-        console.log('res.data from prereq', res.data)
-        setPrereqs(prereqs.push(res.data))
+        console.log('res.data from prereq', res.data) // returns an object, as expected
+        console.log('type of prereqs in useeffect: ', typeof prereqs) // returns 'object'
+        // setPrereqs([...prereqs, res.data])
+
+        // setPrereqs(prevPrereqs => ...prevPrereqs, res.data)
+        setPrereqs(prevPrereqs => [...prevPrereqs, res.data])
       } catch (err) {
         // setIsError(true)
         console.log('error fetching prereq data')
@@ -46,7 +50,7 @@ function CourseShow() {
     if (course) {
       course.prerequisites.map(prerequisiteId => {
         getPrereqData(prerequisiteId)
-        console.log('prereqs in useeffect: ', prereqs)
+        console.log('prereqs in useeffect: ', prereqs) // returns an array populated with objects
       })
     }
   }, [course])
@@ -71,7 +75,7 @@ function CourseShow() {
         prereqs.map(prerequisite => {
           return `id: ${prerequisite.id}, `
         })}</p> */}
-        <p>{prereqs && console.log('prereqs in JSX: ', prereqs)}</p>
+        <p>{prereqs && console.log('prereqs in JSX: ', prereqs, 'type of prereqs: ', typeof prereqs)}</p>
       <p>carousel</p>
       <h2>Instructor</h2>
       <p>instructor profile image: {course && course.instructorImage}, instructor bio: {course && course.instructorBio}, instructor name: {course && course.instructorName}</p>
