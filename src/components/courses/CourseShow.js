@@ -50,6 +50,7 @@ function CourseShow() {
       try {
         const res = await getSingleCourse(prerequisiteId)
         setPrereqs(prevPrereqs => [...prevPrereqs, res.data])
+        console.log('prereqs: ', prereqs)
       } catch (err) {
         // setIsError(true)
         console.log('error fetching prereq data')
@@ -107,28 +108,29 @@ function CourseShow() {
                 <a className="nav-link active" aria-current="page" href="#">Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Link</a>
+                <a className="nav-link" href="#overview">Overview</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#prerequisites">Prerequisites</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#instructor">Instructor</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#syllabus">Syllabus</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#reviews">Reviews</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link disabled">Disabled</a>
               </li>
-              <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-                <ul className="dropdown-menu" aria-labelledby="dropdown04">
-                  <li><a className="dropdown-item" href="#">Action</a></li>
-                  <li><a className="dropdown-item" href="#">Another action</a></li>
-                  <li><a className="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
             </ul>
-            <form>
-              <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
-            </form>
           </div>
         </div>
       </nav>
 
-      <section id="about">
+      <section id="overview">
         <div className="container px-4">
           <div className="row gx-4 justify-content-center">
             <div className="col-lg-8">
@@ -149,9 +151,70 @@ function CourseShow() {
 
       <h3>skills, prereqs and instructor go here</h3>
 
-      <section>
+      <section id="skills"></section>
+      <section id="instructor"></section>
+
+      <section id="prerequisites">
+        <div className="container">
+          <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
+            <div className="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+
+            <div className="carousel-inner">
+              {prereqs && prereqs.map(prerequisite => {
+                {/* make the active part dynamic*/ }
+                // active
+                <div className="carousel-item">
+                  {/* insert the prerequisite.image in the src */}
+                  <img src={prerequisite.image} className="d-block w-100" alt={prerequisite.name} />
+                  <div className="carousel-caption d-none d-md-block">
+                    <h5>{prerequisite.name}</h5>
+                    <p>Some representative placeholder content for the first slide.</p>
+                  </div>
+                </div>
+              })}
+
+              <div className="carousel-item active">
+                <img src="https://i.imgur.com/XO1eXAM.jpg" className="d-block w-100" alt="..." />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5>Second slide label</h5>
+                  <p>Some representative placeholder content for the second slide.</p>
+                </div>
+              </div>
+
+            </div>
+            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* <div id="carouselExampleSlidesOnly" className="carousel slide" data-bs-ride="carousel">
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <img src="..." className="d-block w-100" alt="..."/>
+          </div>
+          <div className="carousel-item">
+            <img src="..." className="d-block w-100" alt="..."/>
+          </div>
+          <div className="carousel-item">
+            <img src="..." className="d-block w-100" alt="..."/>
+          </div>
+        </div>
+      </div> */}
+
+      <section id="syllabus">
         <div className="container-lg">
-          <h3>Syllabus</h3>
+          <h3><i className="bi bi-book"></i>Syllabus</h3>
           <div className="accordion" id="accordionExample">
             {course &&
               course.weeklySyllabuses.map(syllabus => {
@@ -202,9 +265,9 @@ function CourseShow() {
       <h5>Insert a see full syllabus button here</h5>
 
 
-      <section>
+      <section id="reviews">
         <div className="container-md">
-          <h3>Reviews</h3>
+          <h3><i className="bi bi-chat-square-quote"></i>Reviews</h3>
           <ul className="list-group">
             {course &&
               course.reviews.map(review => {
@@ -222,39 +285,23 @@ function CourseShow() {
         <p>Leave a review</p>
       </section>
 
-      <p>breadcrumb goes here</p>
-      <p>splash image url: {course && course.image}</p>
-      <p>course name: {course && course.name}</p>
       <p>instructor name: {course && course.instructorName}</p>
       <p>instructor image url: {course && course.instructorImage}</p>
       <p>length of course: {course && course.length} weeks</p>
       <p>enroll now button (triggers an &apos;enrol&apos; modal)</p>
-      <h3>alternative navbar</h3>
-      <h2>Overview</h2>
-      <p>overview content: {course && course.overview}</p>
+      <h3>alternative navbar (delete this)</h3>
       <h2>Prerequisites</h2>
       <p>Links to prereq cards go here, insert a carousel</p>
       <p>Prerequisite ids: {prereqs &&
         prereqs.map(prerequisite => {
-          return `id: ${prerequisite.id}, `
+          return (
+            `id: ${prerequisite.id}, prerequisite image: ${prerequisite.image}, prerequisite name: ${prerequisite.name}`
+          )
         })}</p>
       {/* <p>{prereqs && console.log('prereqs in JSX: ', prereqs, 'type of prereqs: ', typeof prereqs)}</p> */}
       <p>carousel</p>
       <h2>Instructor</h2>
       <p>instructor profile image: {course && course.instructorImage}, instructor bio: {course && course.instructorBio}, instructor name: {course && course.instructorName}</p>
-      <h2>Syllabus</h2>
-      <p>Accordion with mini description of each weekly syllabus goes here</p>
-      <p><strong>Syllabuses</strong> {course &&
-        course.weeklySyllabuses.map(syllabus => {
-          return `description: ${syllabus.description}, link`
-        })}
-      </p>
-      {/* {course &&
-        <Link to={`/courses/${course.id}/full-syllabus`}>
-          <p>see full syllabus button
-          </p>
-        </Link>
-      } */}
       <h2>Reviews</h2>
       <p>list group of reviews</p>
       <h4>{course &&
