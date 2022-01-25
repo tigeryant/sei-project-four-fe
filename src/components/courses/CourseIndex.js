@@ -9,6 +9,7 @@ function CourseIndex() {
     const getData = async () => {
       try {
         const res = await getAllCourses()
+        // console.log('res.data', res.data)
         setCourses(res.data)
       } catch (err) {
         // setIsError(true)
@@ -22,7 +23,7 @@ function CourseIndex() {
     <>
       <section className="bg-light">
         <h1>This is the course index page</h1>
-        <p>course cards go here</p>
+        <p>add a breadcrumb here</p>
         <div className="container-lg my-5">
           <div className="row">
             {courses &&

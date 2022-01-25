@@ -10,12 +10,14 @@ function CourseShow() {
 
   const { courseId } = useParams()
   const [course, setCourse] = React.useState(null)
+  const [prereqs, setPrereqs] = React.useState([])
 
+  // simplify this later, it can be done with one hook
   const fetchCourse = React.useCallback(() => {
     const getData = async () => {
       try {
         const res = await getSingleCourse(courseId)
-        console.log('res.data:', res.data)
+        console.log('res.data from course:', res.data)
         setCourse(res.data)
       } catch {
         // setIsError(true)
@@ -29,6 +31,25 @@ function CourseShow() {
   React.useEffect(() => {
     fetchCourse()
   }, [courseId, fetchCourse])
+
+  React.useEffect(() => {
+    const getPrereqData = async (prerequisiteId) => {
+      try {
+        const res = await getSingleCourse(prerequisiteId)
+        console.log('res.data from prereq', res.data)
+        setPrereqs(prereqs.push(res.data))
+      } catch (err) {
+        // setIsError(true)
+        console.log('error fetching prereq data')
+      }
+    }
+    if (course) {
+      course.prerequisites.map(prerequisiteId => {
+        getPrereqData(prerequisiteId)
+        console.log('prereqs in useeffect: ', prereqs)
+      })
+    }
+  }, [course])
 
   return (
     <>
@@ -45,11 +66,13 @@ function CourseShow() {
       <h2>Overview</h2>
       <p>overview content: {course && course.overview}</p>
       <h2>Prerequisites</h2>
-      <p>Links to prereq cards go here</p>
-      <p>Prerequisite ids: {course &&
-        course.prerequisites.map(prerequisite => {
-          return `id: ${prerequisite}, `
-        })}</p>
+      <p>Links to prereq cards go here, insert a carousel</p>
+      {/* <p>Prerequisite ids: {prereqs &&
+        prereqs.map(prerequisite => {
+          return `id: ${prerequisite.id}, `
+        })}</p> */}
+        <p>{prereqs && console.log('prereqs in JSX: ', prereqs)}</p>
+      <p>carousel</p>
       <h2>Instructor</h2>
       <p>instructor profile image: {course && course.instructorImage}, instructor bio: {course && course.instructorBio}, instructor name: {course && course.instructorName}</p>
       <h2>Syllabus</h2>
@@ -60,11 +83,11 @@ function CourseShow() {
         })}
       </p>
       {course &&
-      <Link to={`/courses/${course.id}/full-syllabus`}>
-        <p>see full syllabus button
-        </p>
-      </Link>
-}
+        <Link to={`/courses/${course.id}/full-syllabus`}>
+          <p>see full syllabus button
+          </p>
+        </Link>
+      }
       <h2>Reviews</h2>
       <p>list group of reviews</p>
       <h4>{course &&
