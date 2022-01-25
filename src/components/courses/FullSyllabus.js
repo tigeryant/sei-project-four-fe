@@ -1,9 +1,55 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { useParams } from 'react-router'
+
+import { getSingleCourse } from '../../lib/api'
+
 function FullSyllabus() {
+  const { courseId } = useParams()
+  const [course, setCourse] = React.useState(null)
+
+  React.useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await getSingleCourse(courseId)
+        setCourse(res.data)
+      } catch (err) {
+        // setIsError(true)
+        console.log('error fetching course data')
+      }
+    }
+    getData()
+  }, [])
+
   return (
     <>
-      <h1>This is the full syllabus page</h1>
-      <p>breadcrumb goes here</p>
-      <p>list group, each one is a weekly syllabus</p>
+      <nav aria-label="breadcrumb">
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><Link to="/courses">Courses</Link></li>
+          <li className="breadcrumb-item">
+            {course && <Link to={`/courses/${course.id}`}>{course && course.name}</Link>}
+          </li>
+          <li className="breadcrumb-item active" aria-current="page">
+            Full Syllabus
+          </li>
+        </ol>
+      </nav>
+
+      <section>
+        <div className="container-md">
+          <ul className="list-group">
+            {course &&
+              course.weeklySyllabuses.map(syllabus => {
+                return (<li className="list-group-item" key={syllabus.week}>
+                  Week: {syllabus.week}
+                  Syllabus content: {syllabus.content}
+                </li>
+                )
+              })
+            }
+          </ul>
+        </div>
+      </section>
     </>
   )
 }

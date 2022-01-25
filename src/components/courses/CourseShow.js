@@ -5,6 +5,8 @@ import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { getSingleCourse } from '../../lib/api'
 
+import FullSyllabus from './FullSyllabus'
+
 function CourseShow() {
   // make an api call here, 'getSingleCourse' to display the information
 
@@ -188,6 +190,12 @@ function CourseShow() {
                 )
               })}
           </div>
+          {course &&
+            <Link
+              to={`/courses/${course.id}/full-syllabus`}>
+              See full syllabus
+            </Link>
+          }
         </div>
       </section>
 
@@ -241,12 +249,12 @@ function CourseShow() {
           return `description: ${syllabus.description}, link`
         })}
       </p>
-      {course &&
+      {/* {course &&
         <Link to={`/courses/${course.id}/full-syllabus`}>
           <p>see full syllabus button
           </p>
         </Link>
-      }
+      } */}
       <h2>Reviews</h2>
       <p>list group of reviews</p>
       <h4>{course &&
