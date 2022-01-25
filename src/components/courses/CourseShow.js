@@ -62,7 +62,15 @@ function CourseShow() {
 
   return (
     <>
-      {/* remember to wrap everything in a section */}
+      <nav aria-label="breadcrumb">
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><Link to="/courses">Courses</Link></li>
+          <li className="breadcrumb-item active" aria-current="page">
+            {course && course.name}
+          </li>
+        </ol>
+      </nav>
+
       <section className="show-hero">
         <div className="container col-xxl-8 px-4 py-5">
           <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
@@ -179,22 +187,31 @@ function CourseShow() {
                   </div>
                 )
               })}
-
-            {/* <div className="accordion-item">
-              <h2 className="accordion-header" id="headingTwo">
-                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Accordion Item #2
-                </button>
-              </h2>
-              <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                <div className="accordion-body">
-                  <strong>This is the second item's accordion body.</strong>
-                </div>
-              </div>
-            </div> */}
-
           </div>
         </div>
+      </section>
+
+      <h5>Insert a see full syllabus button here</h5>
+
+
+      <section>
+        <div className="container-md">
+          <h3>Reviews</h3>
+          <ul className="list-group">
+            {course &&
+              course.reviews.map(review => {
+                return (<li className="list-group-item" key={review.id}>
+                  review owner: {review.owner}
+                  review rating: {review.rating}
+                  review content: {review.content}
+                </li>
+                )
+              })
+            }
+            <li className="list-group-item">Text input and submit button for reviews</li>
+          </ul>
+        </div>
+        <p>Leave a review</p>
       </section>
 
       <p>breadcrumb goes here</p>
