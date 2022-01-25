@@ -12,17 +12,28 @@ function CourseShow() {
   const [course, setCourse] = React.useState(null)
   const [prereqs, setPrereqs] = React.useState([])
 
+  // assign to each of the course.weeklySyllabuses a boolean that is True if
+  // week === 1 and false otherwise
+
   // simplify this later, it can be done with one hook
   const fetchCourse = React.useCallback(() => {
     const getData = async () => {
       try {
         const res = await getSingleCourse(courseId)
         console.log('res.data from course:', res.data)
+
+        res.data.weeklySyllabuses.map(syllabus => {
+          if (syllabus.week === 1) {
+            syllabus.isFirstWeek = true
+          } else {
+            syllabus.isFirstWeek = false
+          }
+        })
+
         setCourse(res.data)
       } catch {
         // setIsError(true)
         console.log('error fetching course data')
-        console.log('courseId: ', courseId)
       }
     }
     getData()
@@ -36,11 +47,6 @@ function CourseShow() {
     const getPrereqData = async (prerequisiteId) => {
       try {
         const res = await getSingleCourse(prerequisiteId)
-        console.log('res.data from prereq', res.data) // returns an object, as expected
-        console.log('type of prereqs in useeffect: ', typeof prereqs) // returns 'object'
-        // setPrereqs([...prereqs, res.data])
-
-        // setPrereqs(prevPrereqs => ...prevPrereqs, res.data)
         setPrereqs(prevPrereqs => [...prevPrereqs, res.data])
       } catch (err) {
         // setIsError(true)
@@ -50,7 +56,6 @@ function CourseShow() {
     if (course) {
       course.prerequisites.map(prerequisiteId => {
         getPrereqData(prerequisiteId)
-        console.log('prereqs in useeffect: ', prereqs) // returns an array populated with objects
       })
     }
   }, [course])
@@ -58,7 +63,140 @@ function CourseShow() {
   return (
     <>
       {/* remember to wrap everything in a section */}
-      <h1>This is the course show page</h1>
+      <section className="show-hero">
+        <div className="container col-xxl-8 px-4 py-5">
+          <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div className="col-10 col-sm-8 col-lg-6">
+              {course &&
+                <img src={course.image} className="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy" />
+              }
+            </div>
+            <div className="col-lg-6">
+              {course &&
+                <h1 className="display-5 fw-bold lh-1 mb-3">{course.name}</h1>
+              }
+              <p className="lead">Instructor image, name, length</p>
+              <div className="d-grid gap-2 d-md-flex justify-content-md-start">
+                <button type="button" className="btn btn-primary btn-lg px-4 me-md-2">Enrol now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <nav className="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Expand at md</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarsExample04">
+            <ul className="navbar-nav me-auto mb-2 mb-md-0">
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Link</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link disabled">Disabled</a>
+              </li>
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+                <ul className="dropdown-menu" aria-labelledby="dropdown04">
+                  <li><a className="dropdown-item" href="#">Action</a></li>
+                  <li><a className="dropdown-item" href="#">Another action</a></li>
+                  <li><a className="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form>
+              <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <section id="about">
+        <div className="container px-4">
+          <div className="row gx-4 justify-content-center">
+            <div className="col-lg-8">
+              <h2><i className="bi bi-file-earmark-text"></i>Overview</h2>
+              {course &&
+                <p className="lead">{course.overview}</p>
+              }
+              <ul>
+                <li>Clickable nav links that smooth scroll to page sections</li>
+                <li>Responsive behavior when clicking nav links perfect for a one page website</li>
+                <li>Bootstrap's scrollspy feature which highlights which section of the page you're on in the navbar</li>
+                <li>Minimal custom CSS so you are free to explore your own unique design options</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <h3>skills, prereqs and instructor go here</h3>
+
+      <section>
+        <div className="container-lg">
+          <h3>Syllabus</h3>
+          <div className="accordion" id="accordionExample">
+            {course &&
+              course.weeklySyllabuses.map(syllabus => {
+                // if syllabus.isFirstWeek,
+                // render the first component
+                // else, render the second
+                // this will still require a little dynamic rendering
+
+                return (
+                  <div className="accordion-item" key={syllabus.week}>
+                    {/* make the id dynamic */}
+                    <h2 className="accordion-header" id={`heading-${syllabus.week}`}>
+                      <button
+                        // add collapsed if syllabus.isFirstWeek is false
+                        className={`accordion-button ${syllabus.isFirstWeek ? '' : 'collapsed'}`}
+                        type="button" data-bs-toggle="collapse"
+                        // make this dynamic
+                        data-bs-target={`#collapse-${syllabus.week}`}
+                        // make this dynamic
+                        aria-expanded={`${syllabus.isFirstWeek ? 'true' : 'false'}`}
+                        // make this dynamic
+                        aria-controls={`collapse-${syllabus.week}`}>
+                        Week {syllabus.week}
+                      </button>
+                    </h2>
+                    {/* make id dynamic, make the show class dynamic */}
+                    <div id={`collapse-${syllabus.week}`}
+                      className={`accordion-collapse collapse ${syllabus.isFirstWeek ? 'show' : ''}`}
+                      // make this dynamic
+                      aria-labelledby={`heading-${syllabus.week}`} data-bs-parent="#accordionExample">
+                      <div className="accordion-body">
+                        {syllabus.description}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+
+            {/* <div className="accordion-item">
+              <h2 className="accordion-header" id="headingTwo">
+                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Accordion Item #2
+                </button>
+              </h2>
+              <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div className="accordion-body">
+                  <strong>This is the second item's accordion body.</strong>
+                </div>
+              </div>
+            </div> */}
+
+          </div>
+        </div>
+      </section>
+
       <p>breadcrumb goes here</p>
       <p>splash image url: {course && course.image}</p>
       <p>course name: {course && course.name}</p>
@@ -71,11 +209,11 @@ function CourseShow() {
       <p>overview content: {course && course.overview}</p>
       <h2>Prerequisites</h2>
       <p>Links to prereq cards go here, insert a carousel</p>
-      {/* <p>Prerequisite ids: {prereqs &&
+      <p>Prerequisite ids: {prereqs &&
         prereqs.map(prerequisite => {
           return `id: ${prerequisite.id}, `
-        })}</p> */}
-        <p>{prereqs && console.log('prereqs in JSX: ', prereqs, 'type of prereqs: ', typeof prereqs)}</p>
+        })}</p>
+      {/* <p>{prereqs && console.log('prereqs in JSX: ', prereqs, 'type of prereqs: ', typeof prereqs)}</p> */}
       <p>carousel</p>
       <h2>Instructor</h2>
       <p>instructor profile image: {course && course.instructorImage}, instructor bio: {course && course.instructorBio}, instructor name: {course && course.instructorName}</p>
