@@ -5,7 +5,13 @@ import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { getSingleCourse } from '../../lib/api'
 
-import FullSyllabus from './FullSyllabus'
+import Hero from './courseShowChildren/Hero'
+import Overview from './courseShowChildren/Overview'
+import Skills from './courseShowChildren/Skills'
+import Prerequisites from './courseShowChildren/Prerequisites'
+import Instructor from './courseShowChildren/Instructor'
+import Syllabus from './courseShowChildren/Syllabus'
+import Reviews from './courseShowChildren/Reviews'
 
 function CourseShow() {
   // make an api call here, 'getSingleCourse' to display the information
@@ -49,7 +55,17 @@ function CourseShow() {
     const getPrereqData = async (prerequisiteId) => {
       try {
         const res = await getSingleCourse(prerequisiteId)
+        // assign the prerequisite.isFirstSlide variable in here
+        // console.log('res.data: ', res.data)
+
         setPrereqs(prevPrereqs => [...prevPrereqs, res.data])
+
+        // loop through the prereqs here and set one as the isFirstSlide, then setPrereqs again
+
+        // prereqs.map(prerequisite => {
+        //   prerequisite.isFirstSlide = (prerequisite === prereqs[0] ? true : false)
+        // })
+
         console.log('prereqs: ', prereqs)
       } catch (err) {
         // setIsError(true)
@@ -60,8 +76,34 @@ function CourseShow() {
       course.prerequisites.map(prerequisiteId => {
         getPrereqData(prerequisiteId)
       })
+
+      prereqs.map(prerequisite => {
+          prerequisite.isFirstSlide = (prerequisite === prereqs[0] ? true : false)
+          setPrereqs(prevPrereqs => [...prevPrereqs, prerequisite])
+        })
+
+      console.log('prereqs in second clause: ', prereqs)
     }
   }, [course])
+
+  // add a useEffect hook here that gets called every time the prereqs state variable changes
+  // It  sets the isFirstSlide property of the one at index [0] to true.
+  // Since it renders on prereqs, be sure to use the prevPrereqs variable provided by React (prevents infinite loops)
+
+  // YOU HAVE FROZEN THE BROWSER AGAIN - FIX THIS BEFORE TRYING AGAIN
+
+  // React.useEffect(() => {
+  //   prereqs.map(prerequisite => {
+  //     prerequisite.isFirstSlide = (prerequisite === prereqs[0] ? true : false)
+  //     // setPrereqs(prevPrereqs => [...prevPrereqs, prerequisite])
+
+  //     // try this one too
+  //     // setPrereqs(prevPrereqs => [prerequisite, ...prevPrereqs])
+  //   })
+  //   setPrereqs(prevPrereqs => [...prevPrereqs, prereqs])
+  //   // setPrereqs(prevPrereqs => [prereqs, ...prevPrereqs])
+  // }, [course]) // THE DEPENDENCY ARRAY SHOULD BE COURSE, NOT PREREQS
+
 
   return (
     <>
@@ -74,26 +116,13 @@ function CourseShow() {
         </ol>
       </nav>
 
-      <section className="show-hero">
-        <div className="container col-xxl-8 px-4 py-5">
-          <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
-            <div className="col-10 col-sm-8 col-lg-6">
-              {course &&
-                <img src={course.image} className="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy" />
-              }
-            </div>
-            <div className="col-lg-6">
-              {course &&
-                <h1 className="display-5 fw-bold lh-1 mb-3">{course.name}</h1>
-              }
-              <p className="lead">Instructor image, name, length</p>
-              <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-                <button type="button" className="btn btn-primary btn-lg px-4 me-md-2">Enrol now</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {course && 
+        <Hero
+          image={course.image}
+          name={course.name}
+        ></Hero>
+      }
+      
 
       <nav className="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
         <div className="container-fluid">
@@ -130,24 +159,12 @@ function CourseShow() {
         </div>
       </nav>
 
-      <section id="overview">
-        <div className="container px-4">
-          <div className="row gx-4 justify-content-center">
-            <div className="col-lg-8">
-              <h2><i className="bi bi-file-earmark-text"></i>Overview</h2>
-              {course &&
-                <p className="lead">{course.overview}</p>
-              }
-              <ul>
-                <li>Clickable nav links that smooth scroll to page sections</li>
-                <li>Responsive behavior when clicking nav links perfect for a one page website</li>
-                <li>Bootstrap's scrollspy feature which highlights which section of the page you're on in the navbar</li>
-                <li>Minimal custom CSS so you are free to explore your own unique design options</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+
+      {course &&
+        <Overview
+        overview={course.overview}
+        />
+      }
 
       <h3>skills, prereqs and instructor go here</h3>
 
@@ -164,10 +181,10 @@ function CourseShow() {
             </div>
 
             <div className="carousel-inner">
-              {prereqs && prereqs.map(prerequisite => {
-                {/* make the active part dynamic*/ }
-                // active
-                <div className="carousel-item">
+              {prereqs && prereqs.map(prerequisite => { // WHY IS THIS NOT RENDERING?
+                // the active class is dynamic - it is set conditionally, according to the (boolean) value of prerequisite.isFirstSlide
+
+                <div className={`carousel-item ${prerequisite.isFirstSlide ? 'active' : ''}`}>
                   {/* insert the prerequisite.image in the src */}
                   <img src={prerequisite.image} className="d-block w-100" alt={prerequisite.name} />
                   <div className="carousel-caption d-none d-md-block">
@@ -175,15 +192,17 @@ function CourseShow() {
                     <p>Some representative placeholder content for the first slide.</p>
                   </div>
                 </div>
+
+                
               })}
 
-              <div className="carousel-item active">
+              {/* <div className="carousel-item active">
                 <img src="https://i.imgur.com/XO1eXAM.jpg" className="d-block w-100" alt="..." />
                 <div className="carousel-caption d-none d-md-block">
                   <h5>Second slide label</h5>
                   <p>Some representative placeholder content for the second slide.</p>
                 </div>
-              </div>
+              </div> */}
 
             </div>
             <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -212,55 +231,12 @@ function CourseShow() {
         </div>
       </div> */}
 
-      <section id="syllabus">
-        <div className="container-lg">
-          <h3><i className="bi bi-book"></i>Syllabus</h3>
-          <div className="accordion" id="accordionExample">
-            {course &&
-              course.weeklySyllabuses.map(syllabus => {
-                // if syllabus.isFirstWeek,
-                // render the first component
-                // else, render the second
-                // this will still require a little dynamic rendering
-
-                return (
-                  <div className="accordion-item" key={syllabus.week}>
-                    {/* make the id dynamic */}
-                    <h2 className="accordion-header" id={`heading-${syllabus.week}`}>
-                      <button
-                        // add collapsed if syllabus.isFirstWeek is false
-                        className={`accordion-button ${syllabus.isFirstWeek ? '' : 'collapsed'}`}
-                        type="button" data-bs-toggle="collapse"
-                        // make this dynamic
-                        data-bs-target={`#collapse-${syllabus.week}`}
-                        // make this dynamic
-                        aria-expanded={`${syllabus.isFirstWeek ? 'true' : 'false'}`}
-                        // make this dynamic
-                        aria-controls={`collapse-${syllabus.week}`}>
-                        Week {syllabus.week}
-                      </button>
-                    </h2>
-                    {/* make id dynamic, make the show class dynamic */}
-                    <div id={`collapse-${syllabus.week}`}
-                      className={`accordion-collapse collapse ${syllabus.isFirstWeek ? 'show' : ''}`}
-                      // make this dynamic
-                      aria-labelledby={`heading-${syllabus.week}`} data-bs-parent="#accordionExample">
-                      <div className="accordion-body">
-                        {syllabus.description}
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-          </div>
-          {course &&
-            <Link
-              to={`/courses/${course.id}/full-syllabus`}>
-              See full syllabus
-            </Link>
-          }
-        </div>
-      </section>
+      {course &&
+        <Syllabus
+          weeklySyllabuses={course.weeklySyllabuses}
+          id={course.id}
+        />
+      }
 
       <h5>Insert a see full syllabus button here</h5>
 
@@ -295,7 +271,7 @@ function CourseShow() {
       <p>Prerequisite ids: {prereqs &&
         prereqs.map(prerequisite => {
           return (
-            `id: ${prerequisite.id}, prerequisite image: ${prerequisite.image}, prerequisite name: ${prerequisite.name}`
+            `id: ${prerequisite.id}, prerequisite image: ${prerequisite.image}, prerequisite name: ${prerequisite.name} `
           )
         })}</p>
       {/* <p>{prereqs && console.log('prereqs in JSX: ', prereqs, 'type of prereqs: ', typeof prereqs)}</p> */}
