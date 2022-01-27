@@ -1,3 +1,25 @@
+
+
+// body {
+//   background: lime;
+// }
+
+.slick-slider {
+  width: 500px;
+}
+
+.slick-arrow {
+  background: red;
+}
+
+.slick-arrow::before {
+  background: red;
+}
+
+.slide-container {
+  width: 70%;
+}
+
 .hero {
   // background-image: url("../../assets/raphael-school-of-athens.jpeg");
   background-image: url("../assets/raphael-school-of-athens.jpeg");
