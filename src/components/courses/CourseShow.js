@@ -1,49 +1,49 @@
 // import altnav, prereqcard
 // import bootstrap from 'bootstrap'
-import React from 'react';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
-import { getSingleCourse } from '../../lib/api';
+import React from 'react'
+import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
+import { getSingleCourse } from '../../lib/api'
 
-import Hero from './courseShowChildren/Hero';
-import Overview from './courseShowChildren/Overview';
+import Hero from './courseShowChildren/Hero'
+import Overview from './courseShowChildren/Overview'
 // import Skills from './courseShowChildren/Skills'
 // import Prerequisites from './courseShowChildren/Prerequisites'
 // import Instructor from './courseShowChildren/Instructor'
-import Syllabus from './courseShowChildren/Syllabus';
-// import Reviews from './courseShowChildren/Reviews'
+import Syllabus from './courseShowChildren/Syllabus'
+// import Reviews from './courseShowChildren/Reviews' sdfsdfdgdf
 
 function CourseShow() {
-  const { courseId } = useParams();
-  const [course, setCourse] = React.useState(null);
-  const [prereqs, setPrereqs] = React.useState([]);
+  const { courseId } = useParams()
+  const [course, setCourse] = React.useState(null)
+  const [prereqs, setPrereqs] = React.useState([])
 
   // FETCH COURSE DATA
 
   React.useEffect(() => {
     const getData = async () => {
       try {
-        const res = await getSingleCourse(courseId);
+        const res = await getSingleCourse(courseId)
 
         res.data.weeklySyllabuses.map((syllabus) => {
           if (syllabus.week === 1) {
-            syllabus.isFirstWeek = true;
+            syllabus.isFirstWeek = true
           } else {
-            syllabus.isFirstWeek = false;
+            syllabus.isFirstWeek = false
           }
-        });
-        setCourse(res.data);
+        })
+        setCourse(res.data)
       } catch {
-        console.error('error fetching course data');
+        console.error('error fetching course data')
       }
-    };
-    getData();
-  }, [courseId]);
+    }
+    getData()
+  }, [courseId])
 
   // FETCH COURSE PREREQUISITES
   React.useEffect(() => {
     if (course) {
-      const promises = course.prerequisites.map((id) => getSingleCourse(id));
+      const promises = course.prerequisites.map((id) => getSingleCourse(id))
       Promise.all([...promises])
         .then((values) => values.map((value) => value.data))
         .then((data) =>
@@ -53,9 +53,9 @@ function CourseShow() {
               : { ...course, isFirstSlide: false }
           )
         )
-        .then((data) => setPrereqs(data));
+        .then((data) => setPrereqs(data))
     }
-  }, [course]);
+  }, [course])
 
   return (
     <>
@@ -175,9 +175,8 @@ function CourseShow() {
                   // the active class is dynamic - it is set conditionally, according to the (boolean) value of prerequisite.isFirstSlide
                   <div
                     key={`${prerequisite.toString()}-${index}`}
-                    className={`carousel-item ${
-                      prerequisite.isFirstSlide ? 'active' : ''
-                    }`}
+                    className={`carousel-item ${prerequisite.isFirstSlide ? 'active' : ''
+                      }`}
                   >
                     {/* insert the prerequisite.image in the src */}
                     <img
@@ -265,7 +264,7 @@ function CourseShow() {
                     review rating: {review.rating}
                     review content: {review.content}
                   </li>
-                );
+                )
               })}
             <li className="list-group-item">
               Text input and submit button for reviews
@@ -278,7 +277,7 @@ function CourseShow() {
       <p>instructor name: {course && course.instructorName}</p>
       <p>instructor image url: {course && course.instructorImage}</p>
       <p>length of course: {course && course.length} weeks</p>
-      <p>enroll now button (triggers an &apos;enrol&apos; modal)</p>
+      <p>enroll now button (triggers an &aposenrol&apos modal)</p>
       <h3>alternative navbar (delete this)</h3>
       <h2>Prerequisites</h2>
       <p>Links to prereq cards go here, insert a carousel</p>
@@ -286,7 +285,7 @@ function CourseShow() {
         Prerequisite ids:{' '}
         {prereqs &&
           prereqs.map((prerequisite) => {
-            return `id: ${prerequisite.id}, prerequisite image: ${prerequisite.image}, prerequisite name: ${prerequisite.name} `;
+            return `id: ${prerequisite.id}, prerequisite image: ${prerequisite.image}, prerequisite name: ${prerequisite.name} `
           })}
       </p>
       {/* <p>{prereqs && console.log('prereqs in JSX: ', prereqs, 'type of prereqs: ', typeof prereqs)}</p> */}
@@ -311,13 +310,13 @@ function CourseShow() {
                 review content: {review.content}
                 <br />
               </p>
-            );
+            )
           })}
       </h4>
       <p>the final element of the list group is a review form (textbox)</p>
-      <p>if not logged in, &apos;log in to leave a review&apos;</p>
+      <p>if not logged in, &aposlog in to leave a review&apos</p>
     </>
-  );
+  )
 }
 
-export default CourseShow;
+export default CourseShow
