@@ -9,9 +9,9 @@ import BreadCrumb from './courseShowChildren/BreadCrumb'
 import Hero from './courseShowChildren/Hero'
 import AltNavbar from './courseShowChildren/AltNavbar'
 import Overview from './courseShowChildren/Overview'
-// import Skills from './courseShowChildren/Skills'
+import Skills from './courseShowChildren/Skills'
 // import Prerequisites from './courseShowChildren/Prerequisites'
-// import Instructor from './courseShowChildren/Instructor'
+import Instructor from './courseShowChildren/Instructor'
 import Syllabus from './courseShowChildren/Syllabus'
 import Reviews from './courseShowChildren/Reviews'
 
@@ -67,16 +67,14 @@ function CourseShow() {
           <Hero image={course.image} name={course.name} />
           <AltNavbar />
           <Overview overview={course.overview} />
+          <Skills />
         </>
       }
 
-      <h3>skills, prereqs and instructor go here</h3>
-
-      <section id="skills"></section>
       <section id="instructor"></section>
-
       <section id="prerequisites">
         <div className="container">
+          <h2><i className="bi bi-person"></i>Prerequisites</h2>
           <div
             id="carouselExampleCaptions"
             className="carousel slide"
@@ -181,14 +179,21 @@ function CourseShow() {
       </div> */}
 
       {course && (
-        <Syllabus weeklySyllabuses={course.weeklySyllabuses} id={course.id} />
+        <>
+          <Instructor
+            image={course.instructorImage}
+            name={course.instructorName}
+            bio={course.instructorBio}
+          />
+          <Syllabus
+            weeklySyllabuses={course.weeklySyllabuses}
+            id={course.id}
+          />
+          <Reviews
+            reviews={course.reviews}
+          />
+        </>
       )}
-
-      <h5>Insert a see full syllabus button here</h5>
-
-      {course && <Reviews
-        reviews={course.reviews}
-      ></Reviews>}
 
       <p>enroll now button (triggers an &aposenrol&apos modal)</p>
       <p>
