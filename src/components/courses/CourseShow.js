@@ -2,16 +2,18 @@
 // import bootstrap from 'bootstrap'
 import React from 'react'
 import { useParams } from 'react-router'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { getSingleCourse } from '../../lib/api'
 
+import BreadCrumb from './courseShowChildren/BreadCrumb'
 import Hero from './courseShowChildren/Hero'
+import AltNavbar from './courseShowChildren/AltNavbar'
 import Overview from './courseShowChildren/Overview'
 // import Skills from './courseShowChildren/Skills'
 // import Prerequisites from './courseShowChildren/Prerequisites'
 // import Instructor from './courseShowChildren/Instructor'
 import Syllabus from './courseShowChildren/Syllabus'
-// import Reviews from './courseShowChildren/Reviews' sdfsdfdgdf
+import Reviews from './courseShowChildren/Reviews'
 
 function CourseShow() {
   const { courseId } = useParams()
@@ -59,80 +61,14 @@ function CourseShow() {
 
   return (
     <>
-      <nav aria-label="breadcrumb">
-        <ol className="breadcrumb">
-          <li className="breadcrumb-item">
-            <Link to="/courses">Courses</Link>
-          </li>
-          <li className="breadcrumb-item active" aria-current="page">
-            {course && course.name}
-          </li>
-        </ol>
-      </nav>
-
-      {course && <Hero image={course.image} name={course.name}></Hero>}
-
-      <nav
-        className="navbar navbar-expand-md navbar-dark bg-dark"
-        aria-label="Fourth navbar example"
-      >
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Expand at md
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarsExample04"
-            aria-controls="navbarsExample04"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarsExample04">
-            <ul className="navbar-nav me-auto mb-2 mb-md-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#overview">
-                  Overview
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#prerequisites">
-                  Prerequisites
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#instructor">
-                  Instructor
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#syllabus">
-                  Syllabus
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#reviews">
-                  Reviews
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link disabled">Disabled</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      {course && <Overview overview={course.overview} />}
+      {course &&
+        <>
+          <BreadCrumb name={course.name} />
+          <Hero image={course.image} name={course.name} />
+          <AltNavbar />
+          <Overview overview={course.overview} />
+        </>
+      }
 
       <h3>skills, prereqs and instructor go here</h3>
 
@@ -250,37 +186,11 @@ function CourseShow() {
 
       <h5>Insert a see full syllabus button here</h5>
 
-      <section id="reviews">
-        <div className="container-md">
-          <h3>
-            <i className="bi bi-chat-square-quote"></i>Reviews
-          </h3>
-          <ul className="list-group">
-            {course &&
-              course.reviews.map((review) => {
-                return (
-                  <li className="list-group-item" key={review.id}>
-                    review owner: {review.owner}
-                    review rating: {review.rating}
-                    review content: {review.content}
-                  </li>
-                )
-              })}
-            <li className="list-group-item">
-              Text input and submit button for reviews
-            </li>
-          </ul>
-        </div>
-        <p>Leave a review</p>
-      </section>
+      {course && <Reviews
+        reviews={course.reviews}
+      ></Reviews>}
 
-      <p>instructor name: {course && course.instructorName}</p>
-      <p>instructor image url: {course && course.instructorImage}</p>
-      <p>length of course: {course && course.length} weeks</p>
       <p>enroll now button (triggers an &aposenrol&apos modal)</p>
-      <h3>alternative navbar (delete this)</h3>
-      <h2>Prerequisites</h2>
-      <p>Links to prereq cards go here, insert a carousel</p>
       <p>
         Prerequisite ids:{' '}
         {prereqs &&
@@ -288,31 +198,11 @@ function CourseShow() {
             return `id: ${prerequisite.id}, prerequisite image: ${prerequisite.image}, prerequisite name: ${prerequisite.name} `
           })}
       </p>
-      {/* <p>{prereqs && console.log('prereqs in JSX: ', prereqs, 'type of prereqs: ', typeof prereqs)}</p> */}
-      <p>carousel</p>
-      <h2>Instructor</h2>
       <p>
         instructor profile image: {course && course.instructorImage}, instructor
         bio: {course && course.instructorBio}, instructor name:{' '}
         {course && course.instructorName}
       </p>
-      <h2>Reviews</h2>
-      <p>list group of reviews</p>
-      <h4>
-        {course &&
-          course.reviews.map((review) => {
-            return (
-              <p key={review.id}>
-                review owner: {review.owner}
-                <br />
-                review rating: {review.rating}
-                <br />
-                review content: {review.content}
-                <br />
-              </p>
-            )
-          })}
-      </h4>
       <p>the final element of the list group is a review form (textbox)</p>
       <p>if not logged in, &aposlog in to leave a review&apos</p>
     </>
