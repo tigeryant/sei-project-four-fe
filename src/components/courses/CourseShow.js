@@ -68,22 +68,9 @@ function CourseShow() {
           <AltNavbar />
           <Overview overview={course.overview} />
           <Skills />
-        </>
-      }
-
-      {/* remove this */}
-      <section id="instructor"></section>
-
-      <section id="prerequisites">
-        {course &&
           <div style={{ width: "100px", marginLeft: "250px" }}>
             <Carousel slides={prereqs} />
           </div>
-        }
-      </section>
-
-      {course && (
-        <>
           <Instructor
             image={course.instructorImage}
             name={course.instructorName}
@@ -97,16 +84,9 @@ function CourseShow() {
             reviews={course.reviews}
           />
         </>
-      )}
+      }
 
       <p>enroll now button (triggers an &aposenrol&apos modal)</p>
-      <p>
-        Prerequisite ids:{' '}
-        {prereqs &&
-          prereqs.map((prerequisite) => {
-            return `id: ${prerequisite.id}, prerequisite image: ${prerequisite.image}, prerequisite name: ${prerequisite.name} `
-          })}
-      </p>
       <p>
         instructor profile image: {course && course.instructorImage}, instructor
         bio: {course && course.instructorBio}, instructor name:{' '}
