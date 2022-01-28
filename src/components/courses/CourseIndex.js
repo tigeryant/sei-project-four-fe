@@ -22,8 +22,6 @@ function CourseIndex() {
   return (
     <>
       <section className="bg-light">
-        <h1>This is the course index page</h1>
-        <p>add a breadcrumb here</p>
         <div className="container-lg my-5">
           <div className="row">
             {courses &&

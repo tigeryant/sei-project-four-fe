@@ -91,14 +91,14 @@ function CourseShow() {
         </>
       }
 
-      <p>enroll now button (triggers an &aposenrol&apos modal)</p>
+      {/* <p>enroll now button (triggers an &aposenrol&apos modal)</p>
       <p>
         instructor profile image: {course && course.instructorImage}, instructor
         bio: {course && course.instructorBio}, instructor name:{' '}
         {course && course.instructorName}
       </p>
       <p>the final element of the list group is a review form (textbox)</p>
-      <p>if not logged in, &aposlog in to leave a review&apos</p>
+      <p>if not logged in, &aposlog in to leave a review&apos</p> */}
     </>
   )
 }

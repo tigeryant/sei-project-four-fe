@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 function Syllabus({ weeklySyllabuses, id }) {
   return (
     <section id="syllabus" className="pb-5">
-        <h3><i className="bi bi-book"></i>Syllabus</h3>
+        <h3><i className="bi bi-book"></i> Syllabus</h3>
         <div className="accordion" id="accordionExample">
           {weeklySyllabuses.map(syllabus => {
             return (
@@ -37,7 +37,9 @@ function Syllabus({ weeklySyllabuses, id }) {
           })}
         </div>
         <Link
-          to={`/courses/${id}/full-syllabus`}>
+          to={`/courses/${id}/full-syllabus`}
+        className="btn btn-primary mt-3 mb-3"
+          >
           See full syllabus
         </Link>
     </section>

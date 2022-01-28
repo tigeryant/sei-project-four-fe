@@ -6,7 +6,7 @@ function CourseCard({ courseId, image, name, length }) {
       <div className="col-sm-6 col-lg-4">
         <Link to={`/courses/${courseId}`}>
           <div className="card p-4 m-1" >
-            <img src={image} className="card-img-top" style={{ objectFit: "cover" }} alt={'image of ', name}></img>
+            <img src={image} className="card-img-top card-image" style={{ objectFit: "cover" }} alt={'image of ', name}></img>
             <div className="card-body">
               <h5 className="card-title">{name}</h5>
               <p className="card-text">{length} weeks</p>

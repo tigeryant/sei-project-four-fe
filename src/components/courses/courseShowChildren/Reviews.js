@@ -9,9 +9,9 @@ function Reviews({ reviews }) {
         {reviews.map((review) => {
           return (
             <li className="list-group-item" key={review.id}>
-              review owner: {review.owner}
-              review rating: {review.rating}
-              review content: {review.content}
+              <p style={{ display: "block" }}>review owner: {review.owner}</p>
+              <p style={{ display: "block" }}>review rating: {review.rating}</p>
+              <p style={{ display: "block" }}>review content: {review.content}</p>
             </li>
           )
         })}
@@ -19,7 +19,7 @@ function Reviews({ reviews }) {
           Text input and submit button for reviews
         </li>
       </ul>
-      <p>Leave a review</p>
+      <p className="btn btn-primary mt-3 mb-3">Leave a review</p>
     </section>
   )
 }

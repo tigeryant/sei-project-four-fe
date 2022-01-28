@@ -13,7 +13,7 @@ const Prerequisites = ({ slides }) => {
   return (
     <section id="prerequisites" className="pb-5">
       {/* give this div a className and manipulate it through the stylesheet */}
-      <h2><i className="bi bi-person"></i>Prerequisites</h2>
+      <h2 style={{ display: "inline" }}><i className="bi bi-file-earmark-check"></i>Prerequisites</h2>
       <div>
         <Slider {...settings}>
           {slides.map((slide) => (

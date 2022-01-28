@@ -36,13 +36,15 @@ function FullSyllabus() {
       </nav>
 
       <section>
-        <div className="container-md">
+        <div className="container-md py-5" style={{ marginBottom: "20vh" }}>
           <ul className="list-group">
             {course &&
               course.weeklySyllabuses.map(syllabus => {
-                return (<li className="list-group-item" key={syllabus.week}>
-                  Week: {syllabus.week}
-                  Syllabus content: {syllabus.content}
+                return (
+                <li className="list-group-item" key={syllabus.week}>
+                    <h5>Week: {syllabus.week}</h5>
+                    {/* <p className="lead">hello</p> */}
+                    <p>{syllabus.content}</p>
                 </li>
                 )
               })

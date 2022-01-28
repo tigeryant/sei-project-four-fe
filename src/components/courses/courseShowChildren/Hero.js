@@ -12,7 +12,7 @@ function Hero({ image, name}){
             {/* {course && */}
               <h1 className="display-5 fw-bold lh-1 mb-3">{name}</h1>
             {/* } */}
-            <p className="lead">Instructor image, name, length</p>
+            {/* <p className="lead">Instructor image, name, length</p> */}
             <div className="d-grid gap-2 d-md-flex justify-content-md-start">
               <button type="button" className="btn btn-primary btn-lg px-4 me-md-2">Enrol now</button>
             </div>
