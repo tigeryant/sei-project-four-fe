@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 function Navbar() {
   return (
     <>
-      <nav className="navbar navbar-expand-md navbar-light">
+      {/* <nav className="navbar navbar-expand-md navbar-light">
         <div className="container-xxl">
           <span className="navbar-brand">
             <Link to="/">
@@ -20,16 +20,16 @@ function Navbar() {
                 <Link className="nav-link" to="/courses">Courses</Link>
               </li>
               <li className="nav-item">Register</li>
-              <li className="nav-item">Login</li>
+              <li className="nav-item">Login</li> */}
               {/* add list items here that trigger the register and login links */}
-            </ul>
+            {/* </ul>
           </div>
         </div>
-      </nav >
+      </nav > */}
 
       <nav className="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">Logo</Link>
+          <Link className="navbar-brand" to="/">CryptoAcademy</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>

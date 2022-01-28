@@ -2,11 +2,9 @@ import { Link } from 'react-router-dom'
 
 function Syllabus({ weeklySyllabuses, id }) {
   return (
-    <section id="syllabus">
-      <div className="container-lg">
+    <section id="syllabus" className="pb-5">
         <h3><i className="bi bi-book"></i>Syllabus</h3>
         <div className="accordion" id="accordionExample">
-          {/* {course && */}
           {weeklySyllabuses.map(syllabus => {
             return (
               <div className="accordion-item" key={syllabus.week}>
@@ -38,13 +36,10 @@ function Syllabus({ weeklySyllabuses, id }) {
             )
           })}
         </div>
-        {/* {course && */}
         <Link
           to={`/courses/${id}/full-syllabus`}>
           See full syllabus
         </Link>
-        {/* } */}
-      </div>
     </section>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import Slider from 'react-slick'
 
-const Carousel = ({ slides }) => {
+const Prerequisites = ({ slides }) => {
   const settings = {
     arrows: true,
     dots: true,
@@ -11,7 +11,7 @@ const Carousel = ({ slides }) => {
     slidesToScroll: 1,
   }
   return (
-    <section id="prerequisites">
+    <section id="prerequisites" className="pb-5">
       {/* give this div a className and manipulate it through the stylesheet */}
       <h2><i className="bi bi-person"></i>Prerequisites</h2>
       <div>
@@ -27,4 +27,4 @@ const Carousel = ({ slides }) => {
   )
 }
 
-export default Carousel
+export default Prerequisites

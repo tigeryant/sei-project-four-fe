@@ -2,7 +2,6 @@
 // import bootstrap from 'bootstrap'
 import React from 'react'
 import { useParams } from 'react-router'
-// import { Link } from 'react-router-dom'
 import { getSingleCourse } from '../../lib/api'
 
 import BreadCrumb from './courseShowChildren/BreadCrumb'
@@ -10,7 +9,7 @@ import Hero from './courseShowChildren/Hero'
 import AltNavbar from './courseShowChildren/AltNavbar'
 import Overview from './courseShowChildren/Overview'
 import Skills from './courseShowChildren/Skills'
-import Carousel from './courseShowChildren/Carousel'
+import Prerequisites from './courseShowChildren/Prerequisites'
 import Instructor from './courseShowChildren/Instructor'
 import Syllabus from './courseShowChildren/Syllabus'
 import Reviews from './courseShowChildren/Reviews'
@@ -66,23 +65,29 @@ function CourseShow() {
           <BreadCrumb name={course.name} />
           <Hero image={course.image} name={course.name} />
           <AltNavbar />
-          <Overview overview={course.overview} />
-          <Skills />
-          <div style={{ width: "100px", marginLeft: "250px" }}>
-            <Carousel slides={prereqs} />
+        <div className="container-md ">
+          <div className="row justify-content-center">
+              <div className="col-lg-10 ">
+                <Overview overview={course.overview} />
+                <Skills />
+                <div style={{ width: "100px" }}>
+                  <Prerequisites slides={prereqs} />
+                </div>
+                <Instructor
+                  image={course.instructorImage}
+                  name={course.instructorName}
+                  bio={course.instructorBio}
+                />
+                <Syllabus
+                  weeklySyllabuses={course.weeklySyllabuses}
+                  id={course.id}
+                />
+                <Reviews
+                  reviews={course.reviews}
+                />
+              </div>
+            </div>
           </div>
-          <Instructor
-            image={course.instructorImage}
-            name={course.instructorName}
-            bio={course.instructorBio}
-          />
-          <Syllabus
-            weeklySyllabuses={course.weeklySyllabuses}
-            id={course.id}
-          />
-          <Reviews
-            reviews={course.reviews}
-          />
         </>
       }
 
