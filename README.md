@@ -1,4 +1,3 @@
-# Readme for SEI project 4 - CryptoAcademy
 ## Introduction
 I completed this solo project as part of the General Assembly Software Engineering Immersive course. The course was split into four modules, and this was my submission for the final module. During module four, we learnt how to use Django - a back end framework for Python. Having already used Python for various different projects prior to the course, I was pleased to have the opportunity to apply my knowledge of Python in a different way. The finished project was deployed with Netlify and Heroku, and can be found (here, insert link to deployed project). This is the front end repository, the back end can be found [here](https://github.com/tigeryant/sei-project-four-be).
 
